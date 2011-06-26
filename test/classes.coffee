@@ -179,7 +179,10 @@ test "Classes with methods that are pre-bound to the instance, or statically, to
     bark: =>
       "#{@name} woofs!"
 
-    @static = =>
+    @static1 = =>
+      new this('Dog')
+
+    @static2: =>
       new this('Dog')
 
   spark = new Dog('Spark')
@@ -188,9 +191,11 @@ test "Classes with methods that are pre-bound to the instance, or statically, to
 
   ok fido.bark() is 'Spark woofs!'
 
-  obj = func: Dog.static
+  obj1 = func: Dog.static1
+  obj2 = func: Dog.static2
 
-  ok obj.func().name is 'Dog'
+  ok obj1.func().name is 'Dog'
+  ok obj2.func().name is 'Dog'  
 
 
 test "a bound function in a bound function", ->
